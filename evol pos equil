@@ -1,0 +1,41 @@
+#include <iostream>
+#include <iomanip>
+#include <cmath>
+#include <fstream>
+#define PI 3.14159265359
+#define mu 1
+#define m 1
+#define A -1
+#define sigmax 1
+#define sigmay 1
+using namespace std;
+
+double det(double w){
+	double det=pow(A,2)/pow(sigmay,4)+pow(mu*w,2);
+	return det;
+}
+
+
+double x(double w,double yeq){
+	double x=mu*w*A*yeq/(pow(yeq,2)*det(w));
+	return x;
+}
+
+double arctan(double x,double y){
+return atan(y/x);
+}
+
+double y(double w,double yeq){
+	double y=(m*w*w-A*pow(sigmay,-2))*A*yeq/(pow(sigmay,2)*det(w));
+	return y;	
+}
+
+
+int main(){
+		double yeq=1;
+	ofstream data("data.plt");
+	for(double w=0;w<100;w+=0.1){
+		data<<w<<" "<<pow(pow(x(w,yeq),2)+pow(y(w,yeq),2),0.5)<<" "<<arctan(x(w,yeq),y(w,yeq))*180/PI<<" "<<x(w,yeq)<<" "<<y(w,yeq)<<" "<<endl;	
+	}
+	return 0;
+}
